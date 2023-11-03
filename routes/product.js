@@ -15,7 +15,21 @@ router.get('/product',(req,res)=>{
 })
 
 router.get('/product/:id',(req,res)=>{
-    res.send("Product read successfully")
+    Product.findById(req.params.id)
+    .then((product)=>{
+        if(product){
+            res.json(product)
+        } else{
+            res.status(404).json({
+                message: 'product not found'
+            })
+        }
+    })
+    .catch((error)=>{
+        res.json({
+            message: error.message
+        })
+    })
 })
 
 router.post('/product',(req,res)=>{
@@ -41,7 +55,7 @@ router.put('/product',(req,res)=>{
     res.send("Product updated successfully")
 })
 
-router.delete('/product',(req,res)=>{
+router.delete('/product/:id',(req,res)=>{
     res.send("Product deleted successfully")
 })
 
